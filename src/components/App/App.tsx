@@ -30,7 +30,14 @@ function App() {
         setGoodItemList(res);
       } catch (error) {
         console.log(error);
-        setGoodItemList([]);
+        try {
+          const res = await fetchGoodItemList(ids);
+          console.log(res);
+          setGoodItemList(res);
+        } catch (error) {
+          console.log('Ошибка повторного запроса:', error);
+          setGoodItemList([]);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -43,7 +50,13 @@ function App() {
         await fetchingGoodItemList(res);
       } catch (error) {
         console.log(error);
-        setGoodItemList([]);
+        try {
+          const res = await fetchGoodIdsList((page - 1) * 50);
+          await fetchingGoodItemList(res);
+        } catch (error) {
+          console.log('Ошибка повторного запроса:', error);
+          setGoodItemList([]);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -56,7 +69,13 @@ function App() {
         await fetchingGoodItemList(res);
       } catch (error) {
         console.log(error);
-        setGoodItemList([]);
+        try {
+          const res = await fetchFiltredGoodIdsList(filter);
+          await fetchingGoodItemList(res);
+        } catch (error) {
+          console.log('Ошибка повторного запроса:', error);
+          setGoodItemList([]);
+        }
       } finally {
         setIsLoading(false);
       }
