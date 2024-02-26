@@ -102,7 +102,11 @@ function App() {
             Ничего не найдено
           </Box>
         ) : (
-          <Flex flexDir="column" width="calc(100% - 290px)" alignItems="center">
+          <Flex
+            flexDir="column"
+            width={['100%', 'calc(100% - 290px)']}
+            alignItems="center"
+          >
             {!filter && <Pagination page={page} setPage={setPage} />}
             <GoodList dataList={goodItemList} />
           </Flex>

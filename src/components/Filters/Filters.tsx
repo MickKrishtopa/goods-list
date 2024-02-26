@@ -58,7 +58,12 @@ const Filters = ({ onSubmit }: Props) => {
   };
 
   return (
-    <Flex as="form" flexDir="column" onSubmit={(e) => handleSubmit(e)} width="250px">
+    <Flex
+      as="form"
+      flexDir="column"
+      onSubmit={(e) => handleSubmit(e)}
+      width={['100%', '250px']}
+    >
       <FormLabel>Продукт</FormLabel>
       <Input
         name="product"
