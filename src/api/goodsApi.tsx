@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { isAxiosError, AxiosResponse } from 'axios';
 import { axiosInstance } from './index';
 
 import { IFilter, IGood } from '../shared/types';
@@ -13,8 +13,12 @@ export async function fetchGoodIdsList(offset: number): Promise<string[]> {
     const response = await axiosInstance.post('', body);
     const filtredResponse = response.data.result;
     return filtredResponse;
-  } catch {
-    throw new Error('Error');
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(`${error.message}`);
+    } else {
+      throw new Error('Не удалось получить данные');
+    }
   }
 }
 
@@ -28,8 +32,12 @@ export async function fetchFiltredGoodIdsList(filter: IFilter): Promise<string[]
     const response = await axiosInstance.post('', body);
     const filtredResponse = response.data.result;
     return filtredResponse;
-  } catch {
-    throw new Error('Error');
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(`${error.message}`);
+    } else {
+      throw new Error('Не удалось получить данные');
+    }
   }
 }
 
@@ -49,7 +57,11 @@ export async function fetchGoodItemList(ids: string[]): Promise<IGood[]> {
       (item, index, arr) => arr.findIndex((obj) => obj.id === item.id) === index,
     );
     return filtredResponse;
-  } catch {
-    throw new Error('Error');
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(`${error.message}`);
+    } else {
+      throw new Error('Не удалось получить данные');
+    }
   }
 }

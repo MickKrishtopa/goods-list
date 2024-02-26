@@ -17,14 +17,13 @@ import './App.css';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [goodIdsList, setGoodIdsList] = useState<string[]>([]);
   const [goodItemList, setGoodItemList] = useState<IGood[]>([]);
   const [filter, setFilter] = useState<IFilter | null>(null);
 
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    const fetchingGoodItemList = async (ids) => {
+    const fetchingGoodItemList = async (ids: string[]) => {
       setIsLoading(true);
       try {
         const res = await fetchGoodItemList(ids);
@@ -41,7 +40,6 @@ function App() {
       setIsLoading(true);
       try {
         const res = await fetchGoodIdsList((page - 1) * 50);
-        setGoodIdsList(res);
         await fetchingGoodItemList(res);
       } catch (error) {
         console.log(error);
@@ -51,11 +49,10 @@ function App() {
       }
     };
 
-    const fetchingFiltredGoodIdsList = async (filter) => {
+    const fetchingFiltredGoodIdsList = async (filter: IFilter) => {
       setIsLoading(true);
       try {
         const res = await fetchFiltredGoodIdsList(filter);
-        setGoodIdsList(res);
         await fetchingGoodItemList(res);
       } catch (error) {
         console.log(error);
@@ -70,7 +67,7 @@ function App() {
       return;
     }
 
-    fetchingGoodIdsList(0);
+    fetchingGoodIdsList(page);
   }, [filter, page]);
 
   return (
@@ -78,7 +75,7 @@ function App() {
       <Flex padding="20px" gap="40px">
         <Filters onSubmit={setFilter} />
         {isLoading ? (
-          <Flex width="100%" marginTop="20px" justifyContent="center">
+          <Flex width="70%" marginTop="20px" justifyContent="center">
             <Spinner size="xl" />
           </Flex>
         ) : goodItemList.length === 0 ? (
@@ -87,7 +84,7 @@ function App() {
           </Box>
         ) : (
           <Flex flexDir="column" width="100%" alignItems="center">
-            <Pagination page={page} setPage={setPage} />
+            {!filter && <Pagination page={page} setPage={setPage} />}
             <GoodList dataList={goodItemList} />
           </Flex>
         )}
