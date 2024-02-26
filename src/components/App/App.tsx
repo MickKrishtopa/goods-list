@@ -72,7 +72,7 @@ function App() {
 
   return (
     <Layout>
-      <Flex padding="20px" gap="40px">
+      <Flex padding="20px" gap="40px" flexDirection={['column', 'row']}>
         <Filters onSubmit={setFilter} />
         {isLoading ? (
           <Flex width="70%" marginTop="20px" justifyContent="center">
